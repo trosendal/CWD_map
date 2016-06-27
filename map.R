@@ -1,5 +1,6 @@
 library(leaflet)
 library(jsonlite)
+library(htmlwidgets)
 geojson <- readLines("counties.geojson", warn = FALSE)
 temp <- paste(geojson, collapse = "\n")
 geojson <- fromJSON(temp, simplifyVector = FALSE)
@@ -64,10 +65,10 @@ geojson$features <- lapply(geojson$features, function(feat){
 })
 ## Style the map
 geojson$style = list(
-  weight = 1,
-  color = "#FFFFFF",
-  opacity = 0.1,
-  fillOpacity = 0.8
+    weight = 3,
+    color = "#FFFFFF",
+    opacity = 0.8,
+    fillOpacity = 0.8
 )
 ## Add the colour to the geojson
 geojson$features <- lapply(geojson$features, function(feat) {
@@ -77,7 +78,7 @@ geojson$features <- lapply(geojson$features, function(feat) {
   feat
 })
 ## Plot the map
-map <- leaflet()
+map <- leaflet(width = "500px", height = "800px")
 map <- addGeoJSON(map, geojson, weight = 0.5)
 ## Add some points
 map <- addCircleMarkers(map,
@@ -92,6 +93,6 @@ map <- addLegend(map,
                  "bottomright",
                  colors = cols2016,
                  labels = c(0,1,2,3,4),
-                 title = "Number of Cases of XXXX per County",
+                 title = "Number of Cases<br>of XXXX per County",
                  opacity = 1)
-map
+saveWidget(map, "map.html")
