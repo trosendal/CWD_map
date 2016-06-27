@@ -43,12 +43,13 @@ NUTS <- data.frame(NUTS3 = c("SE110", "SE121", "SE122", "SE123",
                                     "Västernorrland County",
                                     "Jämtland County",
                                     "Västerbotten County",
-                                    "Norrbotten County"))
+                                    "Norrbotten County"),
+                   stringsAsFactors = FALSE)
 ##Add data and colours to this dataframe
 NUTS$result <- c(1, 2, 4, 1, 0,
-                 0, 0, 3, 4, 0,
-                 1, 0, 2, 0, 3,
-                 0, 0, 2, 0, 0,
+                 4, 4, 3, 4, 0,
+                 1, 4, 2, 0, 3,
+                 4, 4, 2, 0, 0,
                  1)
 ##Add the colour for each result value (Done manually to allow complete flexibility)
 cols2016 <- rev(c("#D22630", "#DD5431", "#E98132", "#F4AF32", "#FFDC33"))
@@ -63,12 +64,28 @@ geojson$features <- lapply(geojson$features, function(feat){
     feat$properties$result <- NUTS$result[match(feat$properties$NUTS_ID, NUTS$NUTS3)]
     feat
 })
+## Keep all counties for an outline
+geojson_outline <- geojson
 ## Style the map
-geojson$style = list(
-    weight = 3,
+geojson_outline$style = list(
+    weight = 2,
     color = "#FFFFFF",
     opacity = 0.8,
-    fillOpacity = 0.5
+    fillOpacity = 0)
+## Drop the counties without data
+geojson$features <- lapply(geojson$features, function(feat){
+    if(feat$properties$NUTS_ID %in% NUTS$NUTS3[NUTS$result==0]) {
+        return(NULL)
+    } else {
+        return(feat)
+    }
+})
+## Style the map
+geojson$style = list(
+    weight = 2,
+    color = "#FFFFFF",
+    opacity = 0.8,
+    fillOpacity = 0.6
 )
 ## Add the colour to the geojson
 geojson$features <- lapply(geojson$features, function(feat) {
@@ -80,6 +97,7 @@ geojson$features <- lapply(geojson$features, function(feat) {
 ## Plot the map
 map <- leaflet(width = "500px", height = "800px")
 map <- addGeoJSON(map, geojson)
+map <- addGeoJSON(map, geojson_outline)
 ## Add some points
 map <- addCircleMarkers(map,
                         opacity = 1,
