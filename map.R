@@ -51,6 +51,9 @@ NUTS$result <- c(1, 2, 4, 1, 0,
                  1, 4, 2, 0, 3,
                  4, 4, 2, 0, 0,
                  1)
+##And potentially some points where cases are found
+lat <- c(59.7039353,60, 59.5, 59.2)
+lng <- c(17.7219536,18, 19, 18.5)
 ##Add the colour for each result value (Done manually to allow complete flexibility)
 cols2016 <- rev(c("#D22630", "#DD5431", "#E98132", "#F4AF32", "#FFDC33"))
 NUTS$colour <- NA
@@ -98,13 +101,14 @@ geojson$features <- lapply(geojson$features, function(feat) {
 map <- leaflet(width = "500px", height = "800px")
 map <- addGeoJSON(map, geojson)
 map <- addGeoJSON(map, geojson_outline)
-## Add some points
+##Add some points
 map <- addCircleMarkers(map,
                         opacity = 1,
-                        radius = 1,
-                        lat = 59.7039353,
-                        lng = 17.7219536,
-                        fill = TRUE)
+                        radius = 1.5,
+                        lat = lat,
+                        lng = lng,
+                        fill = TRUE,
+                        popup = c("foo", "bar", "sds", "sds"))
 map <- addTiles(map)
 map <- fitBounds(map, 10.8, 55.2, 24.2, 69.2)
 map <- addLegend(map,
