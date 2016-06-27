@@ -53,7 +53,7 @@ NUTS$result <- c(1, 2, 4, 1, 0,
 ##Add the colour for each result value (Done manually to allow complete flexibility)
 cols2016 <- rev(c("#D22630", "#DD5431", "#E98132", "#F4AF32", "#FFDC33"))
 NUTS$colour <- NA
-NUTS$colour[NUTS$result == 0] <- cols2016[1]
+NUTS$colour[NUTS$result == 0] <- "#FFFFFF" ##cols2016[1]
 NUTS$colour[NUTS$result == 1] <- cols2016[2]
 NUTS$colour[NUTS$result == 2] <- cols2016[3]
 NUTS$colour[NUTS$result == 3] <- cols2016[4]
@@ -68,7 +68,7 @@ geojson$style = list(
     weight = 3,
     color = "#FFFFFF",
     opacity = 0.8,
-    fillOpacity = 0.8
+    fillOpacity = 0.5
 )
 ## Add the colour to the geojson
 geojson$features <- lapply(geojson$features, function(feat) {
@@ -79,7 +79,7 @@ geojson$features <- lapply(geojson$features, function(feat) {
 })
 ## Plot the map
 map <- leaflet(width = "500px", height = "800px")
-map <- addGeoJSON(map, geojson, weight = 0.5)
+map <- addGeoJSON(map, geojson)
 ## Add some points
 map <- addCircleMarkers(map,
                         opacity = 1,
