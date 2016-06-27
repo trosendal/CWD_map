@@ -46,11 +46,11 @@ NUTS <- data.frame(NUTS3 = c("SE110", "SE121", "SE122", "SE123",
                                     "Norrbotten County"),
                    stringsAsFactors = FALSE)
 ##Add data and colours to this dataframe
-NUTS$result <- c(1, 2, 4, 1, 0,
-                 4, 4, 3, 4, 0,
-                 1, 4, 2, 0, 3,
-                 4, 4, 2, 0, 0,
-                 1)
+NUTS$result <- c(0, 0, 0, 0, 0,
+                 0, 0, 0, 0, 0,
+                 0, 0, 0, 0, 0,
+                 0, 0, 0, 0, 4,
+                 0)
 ##And potentially some points where cases are found
 lat <- c(59.7039353,60, 59.5, 59.2)
 lng <- c(17.7219536,18, 19, 18.5)
@@ -71,8 +71,8 @@ geojson$features <- lapply(geojson$features, function(feat){
 geojson_outline <- geojson
 ## Style the map
 geojson_outline$style = list(
-    weight = 2,
-    color = "#FFFFFF",
+    weight = 1,
+    color = "#7e7e7e",
     opacity = 0.8,
     fillOpacity = 0)
 ## Drop the counties without data
@@ -85,8 +85,8 @@ geojson$features <- lapply(geojson$features, function(feat){
 })
 ## Style the map
 geojson$style = list(
-    weight = 2,
-    color = "#FFFFFF",
+    weight = 1,
+    color = "#7e7e7e",
     opacity = 0.8,
     fillOpacity = 0.6
 )
@@ -99,8 +99,8 @@ geojson$features <- lapply(geojson$features, function(feat) {
 })
 ## Plot the map
 map <- leaflet(width = "500px", height = "800px")
-map <- addGeoJSON(map, geojson)
-map <- addGeoJSON(map, geojson_outline)
+map <- addGeoJSON(map, geojson, group = "A")
+map <- addGeoJSON(map, geojson_outline, group = "A")
 ##Add some points
 map <- addCircleMarkers(map,
                         opacity = 1,
@@ -108,13 +108,18 @@ map <- addCircleMarkers(map,
                         lat = lat,
                         lng = lng,
                         fill = TRUE,
-                        popup = c("foo", "bar", "sds", "sds"))
+                        popup = c("foo", "bar", "sds", "sds"),
+                        group = "Point locations<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspof cases")
 map <- addTiles(map)
 map <- fitBounds(map, 10.8, 55.2, 24.2, 69.2)
 map <- addLegend(map,
                  "bottomright",
-                 colors = cols2016,
-                 labels = c(0,1,2,3,4),
+                 colors = cols2016[2:5],
+                 labels = c(1,2,3,4),
                  title = "Number of Cases<br>of XXXX per County",
-                 opacity = 1)
+                 opacity = 0.6)
+map <- addLayersControl(map,
+    overlayGroups = c("Point locations<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspof cases"),
+    options = layersControlOptions(collapsed = FALSE),
+    position = "bottomright")
 saveWidget(map, "map.html")
