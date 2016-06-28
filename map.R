@@ -53,9 +53,6 @@ NUTS$result <- c(0, 1, 0, 0, 0,
                  0)
 map_data@data$Swedish_name <- NUTS$Swedish_name[match(NUTS$NUTS3, map_data$NUTS_ID)]
 map_data@data$English_name <- NUTS$English_name[match(NUTS$NUTS3, map_data$NUTS_ID)]
-map_data@data$result <- NUTS$result[match(NUTS$NUTS3, map_data$NUTS_ID)]
-unlink("data.geojson")
-writeOGR(map_data, "data.geojson", layer = "main", driver = "GeoJSON", check_exists = FALSE)
-test <- readLines("data.geojson", warn = FALSE)
-test <- paste(test, collapse = "\n")
-writeLines(c("var CountyData = ", test), "data.js")
+##map_data@data$result <- NUTS$result[match(NUTS$NUTS3, map_data$NUTS_ID)]
+unlink("counties.geojson")
+writeOGR(map_data, "counties.geojson", layer = "main", driver = "GeoJSON", check_exists = FALSE)
