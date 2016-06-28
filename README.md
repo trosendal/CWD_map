@@ -9,17 +9,16 @@ from R.
 
 http://palewi.re/posts/2012/03/26/leaflet-recipe-hover-events-features-and-polygons/
 
-
 http://leafletjs.com/examples/choropleth-example.html
 
 
 ## Design
 
-The map in directory /map2 is implimented in javascript only reading a
-JSON data file. However I need to get data into the JSON file. So far
-attempts to write valid JSON from R has failed for some reason. All I
-need to do is add a properties 'result' to each feature.
+* Use spatial data in R add covariate information and write to .geojson
+* Read geojson in html
+* All map design is done in javascript
+
 
 ### TODO
 
-Write valid JSON from R
+Add points to map
