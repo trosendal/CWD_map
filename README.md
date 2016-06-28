@@ -13,18 +13,13 @@ http://palewi.re/posts/2012/03/26/leaflet-recipe-hover-events-features-and-polyg
 http://leafletjs.com/examples/choropleth-example.html
 
 
-## TODO
-
-* A popup over each polygon that displays a number that is stored in the
-.geojson
-
 ## Design
 
-It would be nice to have the entire mapping part built in javascript
-and just the data is added in some lines of geojson that is written
-from R.
+The map in directory /map2 is implimented in javascript only reading a
+JSON data file. However I need to get data into the JSON file. So far
+attempts to write valid JSON from R has failed for some reason. All I
+need to do is add a properties 'result' to each feature.
 
-Using the leaflet library in R limits the possibility of using the
-features that are included in that library where most examples on the
-web of leaflet maps are describing how to produce maps by working
-directly in javascript. 
+### TODO
+
+Write valid JSON from R
