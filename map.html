@@ -159,7 +159,7 @@
 			div.innerHTML = labels.join('<br>');
 			return div;
 		};
-L.geoJson(points, {
+L.geoJson(PointsData, {
     style: function(feature) {
         return {color: feature.properties.colour};
     },
