@@ -1,0 +1,8 @@
+       L.geoJson(PointsData, {
+       	  style: function(feature) {
+       	      return {color: feature.properties.colour};
+       	  },
+       	  pointToLayer: function(feature, latlng) {
+       	      return new L.CircleMarker(latlng, {radius: 3, fillOpacity: 0.85});
+       	  }
+      }).addTo(map);
