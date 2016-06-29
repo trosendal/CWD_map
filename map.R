@@ -1,10 +1,8 @@
 library(sp)
 library(rgdal)
-
 ##
 ## Polygons on map
 ##
-
 readpolygons <- function(infile) {
     ## Get the map of counties
     map_data <- readOGR("counties.geojson", layer = "OGRGeoJSON")
@@ -21,13 +19,9 @@ readpolygons <- function(infile) {
     writeLines(c("<script type='text/javascript'>", "var CountyData = ", temp, "</script>"), outfile)
     return(outfile)
 }
-
-readpolygons("results.csv")
-
 ##
 ## Points on the map
 ##
-
 readpoints <- function(infile){
     df <- read.csv2(infile, stringsAsFactors = FALSE, dec = ".")
     df$date <- as.Date(df$date)
@@ -42,13 +36,9 @@ readpoints <- function(infile){
     writeLines(c("<script type='text/javascript'>", "var PointsData = ", temp, "</script>"), outfile)
     return(outfile)
 }
-
-readpoints("points.csv")
-
 ##
 ## Build map
 ##
-
 buildmap <- function(polygons, points = NULL, outfile) {
     snp1 <- readLines("snippet1.html")
     snp2 <- readLines("snippet2.html")
@@ -62,6 +52,5 @@ buildmap <- function(polygons, points = NULL, outfile) {
         writeLines(c(snp1, polygons, snp2, snp4), outfile)
     }
 }
-
 buildmap(readpolygons("results.csv"), readpoints("points.csv"), "map.html")
-buildmap(polygons = readpolygons("results.csv"), outfile = "map.html")
+##buildmap(polygons = readpolygons("results.csv"), outfile = "map.html")
